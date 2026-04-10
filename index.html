@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoPremium - Oficina & Funilaria</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS 4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+            --font-display: "Anton", sans-serif;
+            --color-primary: #ff0000;
+            --color-dark: #0f0f0f;
+        }
+
+        @layer base {
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                @apply bg-dark text-white font-sans antialiased overflow-x-hidden;
+            }
+        }
+
+        @layer components {
+            .glass {
+                @apply bg-white/5 backdrop-blur-md border border-white/10;
+            }
+            .section-padding {
+                @apply py-24 px-6;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-red-700 text-white px-8 py-4 rounded-full font-black uppercase tracking-tighter transition-all transform hover:scale-105 inline-flex items-center gap-2;
+            }
+            .btn-outline {
+                @apply border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-full font-black uppercase tracking-tighter transition-all inline-flex items-center gap-2;
+            }
+        }
+
+        /* Custom Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .parallax-bg {
+            transition: transform 0.1s ease-out;
+        }
+
+        .service-card:hover .icon-box {
+            @apply scale-110 bg-primary/20;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#inicio" class="flex items-center gap-2">
+                <div class="bg-primary p-2 rounded-lg">
+                    <i data-lucide="car" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="font-display text-2xl tracking-tighter uppercase">
+                    Auto<span class="text-primary">Premium</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#inicio" class="text-sm font-semibold uppercase tracking-widest hover:text-primary transition-colors">Início</a>
+                <a href="#servicos" class="text-sm font-semibold uppercase tracking-widest hover:text-primary transition-colors">Serviços</a>
+                <a href="#sobre" class="text-sm font-semibold uppercase tracking-widest hover:text-primary transition-colors">Sobre</a>
+                <a href="#depoimentos" class="text-sm font-semibold uppercase tracking-widest hover:text-primary transition-colors">Depoimentos</a>
+                <a href="#contato" class="text-sm font-semibold uppercase tracking-widest hover:text-primary transition-colors">Contato</a>
+                <a href="https://wa.me/5511999999999" target="_blank" class="bg-primary hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold text-sm uppercase transition-all flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    WhatsApp
+                </a>
+            </nav>
+
+            <!-- Mobile Toggle -->
+            <button id="menu-toggle" class="md:hidden text-white">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 flex flex-col items-center justify-center gap-8 translate-x-full transition-transform duration-500 md:hidden">
+            <button id="menu-close" class="absolute top-8 right-8 text-white">
+                <i data-lucide="x" class="w-10 h-10"></i>
+            </button>
+            <a href="#inicio" class="text-3xl font-display uppercase tracking-widest hover:text-primary">Início</a>
+            <a href="#servicos" class="text-3xl font-display uppercase tracking-widest hover:text-primary">Serviços</a>
+            <a href="#sobre" class="text-3xl font-display uppercase tracking-widest hover:text-primary">Sobre</a>
+            <a href="#depoimentos" class="text-3xl font-display uppercase tracking-widest hover:text-primary">Depoimentos</a>
+            <a href="#contato" class="text-3xl font-display uppercase tracking-widest hover:text-primary">Contato</a>
+            <a href="https://wa.me/5511999999999" target="_blank" class="bg-primary text-white px-10 py-4 rounded-full font-bold text-xl uppercase flex items-center gap-3">
+                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative h-screen flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80&w=2000" 
+                 alt="Oficina" 
+                 class="w-full h-full object-cover opacity-40 scale-110 parallax-bg"
+                 referrerpolicy="no-referrer">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl reveal">
+                <span class="text-primary font-bold tracking-[0.3em] uppercase text-sm mb-4 block">Excelência Automotiva</span>
+                <h1 class="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.85] uppercase mb-6">
+                    O cuidado que o <br>
+                    <span class="text-primary">seu carro</span> merece
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 font-light leading-relaxed">
+                    Especialistas em mecânica, funilaria e pintura automotiva de alto padrão. 
+                    Tecnologia de ponta para quem não abre mão da perfeição.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contato" class="btn-primary text-lg px-10 py-5">
+                        Fale Conosco Agora
+                        <i data-lucide="chevron-right"></i>
+                    </a>
+                    <a href="#servicos" class="btn-outline text-lg px-10 py-5">
+                        Nossos Serviços
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-bounce">
+            <span class="text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+            <div class="w-px h-12 bg-white"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos" class="section-padding bg-[#0a0a0a]">
+        <div class="container mx-auto">
+            <div class="text-center mb-20 reveal">
+                <span class="text-primary font-bold tracking-widest uppercase text-xs">O que fazemos</span>
+                <h2 class="font-display text-5xl md:text-7xl uppercase mt-4">Nossos Serviços</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="wrench" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Mecânica Geral</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Diagnóstico completo e reparos especializados em motores nacionais e importados.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="paintbrush" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Funilaria e Pintura</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Recuperação estética com tecnologia de ponta e acabamento premium.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="clipboard-check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Revisão Completa</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Check-up preventivo para garantir a segurança e longevidade do seu veículo.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="disc" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Freios</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Manutenção e substituição de componentes de frenagem com peças originais.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="car" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Suspensão</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Alinhamento, balanceamento e troca de amortecedores para máximo conforto.</p>
+                </div>
+                <!-- Service 6 -->
+                <div class="glass p-10 rounded-3xl service-card reveal transition-all duration-500">
+                    <div class="icon-box bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center text-primary mb-8 transition-transform duration-500">
+                        <i data-lucide="zap" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 uppercase tracking-tight">Injeção Eletrônica</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">Limpeza de bicos e diagnóstico computadorizado de última geração.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="section-padding relative overflow-hidden">
+        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <span class="text-primary font-bold tracking-widest uppercase text-xs">Sobre Nós</span>
+                <h2 class="font-display text-5xl md:text-7xl uppercase mt-4 mb-8">
+                    Confiança e <br>
+                    <span class="text-primary">Transparência</span>
+                </h2>
+                <p class="text-gray-400 text-lg mb-8 font-light leading-relaxed">
+                    Com anos de experiência no mercado automotivo, a AutoPremium nasceu da paixão por carros e do compromisso com a excelência. 
+                    Nossa missão é oferecer um serviço de oficina que une a precisão técnica ao atendimento personalizado.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-6 mb-10">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-semibold text-sm uppercase tracking-tight">Diagnóstico Preciso</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-semibold text-sm uppercase tracking-tight">Atendimento Rápido</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-semibold text-sm uppercase tracking-tight">Garantia de Serviço</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-semibold text-sm uppercase tracking-tight">Peças de Qualidade</span>
+                    </div>
+                </div>
+
+                <a href="#contato" class="btn-outline">Conheça nossa estrutura</a>
+            </div>
+
+            <div class="relative reveal">
+                <div class="aspect-square rounded-3xl overflow-hidden border-8 border-white/5">
+                    <img src="https://images.unsplash.com/photo-1625047509168-a7026f36fe04?auto=format&fit=crop&q=80&w=1000" 
+                         alt="Trabalho" 
+                         class="w-full h-full object-cover"
+                         referrerpolicy="no-referrer">
+                </div>
+                <div class="absolute -bottom-10 -left-10 glass p-8 rounded-3xl hidden md:block">
+                    <span class="text-5xl font-display text-primary block">15+</span>
+                    <span class="text-xs uppercase font-bold tracking-widest">Anos de Experiência</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="depoimentos" class="section-padding bg-[#0a0a0a]">
+        <div class="container mx-auto">
+            <div class="text-center mb-20 reveal">
+                <span class="text-primary font-bold tracking-widest uppercase text-xs">O que dizem nossos clientes</span>
+                <h2 class="font-display text-5xl md:text-7xl uppercase mt-4">Depoimentos</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass p-8 rounded-3xl reveal">
+                    <div class="flex gap-1 mb-6 text-primary">
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 font-light leading-relaxed">"Atendimento impecável! Levei meu carro para funilaria e voltou parecendo zero quilômetro. Recomendo muito."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">R</div>
+                        <span class="font-bold uppercase tracking-tight">Ricardo Silva</span>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="glass p-8 rounded-3xl reveal">
+                    <div class="flex gap-1 mb-6 text-primary">
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 font-light leading-relaxed">"Profissionais extremamente qualificados. O diagnóstico foi preciso e o preço justo. Transparência total."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">M</div>
+                        <span class="font-bold uppercase tracking-tight">Mariana Costa</span>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="glass p-8 rounded-3xl reveal">
+                    <div class="flex gap-1 mb-6 text-primary">
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-primary"></i>
+                    </div>
+                    <p class="text-gray-300 italic mb-8 font-light leading-relaxed">"Melhor oficina da região. O cuidado com os detalhes na pintura é algo que nunca vi em outro lugar."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">A</div>
+                        <span class="font-bold uppercase tracking-tight">André Santos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-padding relative overflow-hidden text-center">
+        <div class="absolute inset-0 bg-primary/10 z-0"></div>
+        <div class="container mx-auto relative z-10">
+            <div class="reveal">
+                <h2 class="font-display text-5xl md:text-8xl uppercase mb-8">
+                    Seu carro precisa <br> de <span class="text-primary underline decoration-4 underline-offset-8">atenção?</span>
+                </h2>
+                <p class="text-gray-400 text-xl mb-12 max-w-2xl mx-auto font-light">
+                    Não deixe para depois. Agende agora mesmo uma avaliação gratuita com nossos especialistas.
+                </p>
+                <a href="https://wa.me/5511999999999" target="_blank" class="btn-primary text-xl px-12 py-6 shadow-2xl shadow-primary/20">
+                    <i data-lucide="message-circle" class="w-8 h-8"></i>
+                    Agendar via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="section-padding">
+        <div class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div class="reveal">
+                <span class="text-primary font-bold tracking-widest uppercase text-xs">Fale Conosco</span>
+                <h2 class="font-display text-5xl md:text-7xl uppercase mt-4 mb-12">Contato</h2>
+                
+                <div class="space-y-8">
+                    <div class="flex items-start gap-6">
+                        <div class="bg-white/5 p-4 rounded-2xl text-primary">
+                            <i data-lucide="map-pin"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-xs text-gray-500 mb-1">Endereço</h4>
+                            <p class="text-lg font-light">Av. Automotiva, 1234 - Bairro Industrial<br>São Paulo - SP, 01234-567</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-6">
+                        <div class="bg-white/5 p-4 rounded-2xl text-primary">
+                            <i data-lucide="phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-xs text-gray-500 mb-1">Telefone</h4>
+                            <p class="text-lg font-light">(11) 4002-8922</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-6">
+                        <div class="bg-white/5 p-4 rounded-2xl text-primary">
+                            <i data-lucide="message-circle"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold uppercase tracking-widest text-xs text-gray-500 mb-1">WhatsApp</h4>
+                            <p class="text-lg font-light">(11) 99999-9999</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mt-12">
+                    <a href="#" class="bg-white/5 p-4 rounded-full hover:bg-primary transition-colors"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="bg-white/5 p-4 rounded-full hover:bg-primary transition-colors"><i data-lucide="facebook"></i></a>
+                </div>
+            </div>
+
+            <div class="h-[500px] rounded-3xl overflow-hidden glass border-4 border-white/5 reveal">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.197503123456!2d-46.65234567890123!3d-23.56456789012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMzJzUyLjQiUyA0NsKwMzknMDguNCJX!5e0!3m2!1spt-BR!2sbr!4v1620000000000!5m2!1spt-BR!2sbr" 
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary p-1 rounded">
+                    <i data-lucide="car" class="text-white w-4 h-4"></i>
+                </div>
+                <span class="font-display text-xl tracking-tighter uppercase">
+                    Auto<span class="text-primary">Premium</span>
+                </span>
+            </div>
+            
+            <p class="text-gray-500 text-sm font-light">
+                © 2026 AutoPremium Oficina & Funilaria. Todos os direitos reservados.
+            </p>
+
+            <div class="flex gap-8">
+                <a href="#" class="text-xs uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Privacidade</a>
+                <a href="#" class="text-xs uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Termos</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/5511999999999" target="_blank" class="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+        <span class="absolute right-full mr-4 bg-white text-dark px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">Falar no WhatsApp</span>
+    </a>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('glass', 'py-4');
+                header.classList.remove('py-6');
+            } else {
+                header.classList.remove('glass', 'py-4');
+                header.classList.add('py-6');
+            }
+        });
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+
+        const toggleMenu = () => {
+            mobileMenu.classList.toggle('translate-x-full');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuClose.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Reveal Animations on Scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const parallax = document.querySelector('.parallax-bg');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.transform = 'translateY(' + scrollPosition * 0.3 + 'px) scale(1.1)';
+        });
+
+        // Smooth Scroll for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
